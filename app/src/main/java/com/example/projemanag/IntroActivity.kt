@@ -35,7 +35,7 @@ class IntroActivity : AppCompatActivity() {
         }
 
         btnSignInIntro.setOnClickListener {
-
+            startActivity(Intent(this, SignInActivity::class.java))
         }
     }
 }
