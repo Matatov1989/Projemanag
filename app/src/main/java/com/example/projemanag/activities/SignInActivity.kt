@@ -1,4 +1,4 @@
-package com.example.projemanag
+package com.example.projemanag.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,29 +6,28 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar;
+import com.example.projemanag.R
 
-class SignUpActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
 
-    private lateinit var toolbarSignUpActivity: Toolbar
-    private lateinit var etName: EditText
+    private lateinit var toolbarSignInActivity: Toolbar
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
-    private lateinit var btnSignUp: Button
+    private lateinit var btnSignIn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        setContentView(R.layout.activity_sign_in)
 
         initView()
         setupActionBar()
     }
 
     private fun initView() {
-        toolbarSignUpActivity = findViewById(R.id.toolbarSignUpActivity)
-        etName = findViewById(R.id.etName)
+        toolbarSignInActivity = findViewById(R.id.toolbarSignInActivity)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
-        btnSignUp = findViewById(R.id.btnSignUp)
+        btnSignIn = findViewById(R.id.btnSignIn)
     }
 
     private fun setupActionBar() {
@@ -36,15 +35,14 @@ class SignUpActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-
-        setSupportActionBar(toolbarSignUpActivity)
+        setSupportActionBar(toolbarSignInActivity)
         val actionBar = supportActionBar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24)
         }
 
-        toolbarSignUpActivity.setNavigationOnClickListener {
+        toolbarSignInActivity.setNavigationOnClickListener {
             onBackPressed()
         }
     }

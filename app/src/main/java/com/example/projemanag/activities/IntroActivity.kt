@@ -1,12 +1,12 @@
-package com.example.projemanag
+package com.example.projemanag.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
+import com.example.projemanag.R
 
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : BaseActivity() {
 
     private lateinit var btnSignInIntro: Button
     private lateinit var btnSignUpIntro: Button
