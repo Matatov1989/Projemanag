@@ -47,7 +47,7 @@
 
     <!--TODO (Step 8: Button background files are added in the drawable folder.)-->
     <Button
-        android:id="@+id/btn_sign_in_intro"
+        android:id="@+id/btnSignInIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -64,7 +64,7 @@
         android:textSize="@dimen/btn_text_size" />
 
     <Button
-        android:id="@+id/btn_sign_up_intro"
+        android:id="@+id/btnSignUpIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
