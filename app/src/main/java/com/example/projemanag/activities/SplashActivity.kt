@@ -8,6 +8,7 @@ import android.os.Handler
 import android.view.WindowManager
 import android.widget.TextView
 import com.example.projemanag.R
+import com.example.projemanag.firebase.FireStoreClass
 
 class SplashActivity : AppCompatActivity() {
 
@@ -29,7 +30,13 @@ class SplashActivity : AppCompatActivity() {
 
 
         Handler().postDelayed({
-            startActivity(Intent(this, IntroActivity::class.java))
+            var currentUserId = FireStoreClass().getCurrentUserId()
+            if (currentUserId.isNotEmpty()) {
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                startActivity(Intent(this, IntroActivity::class.java))
+            }
+
             finish()
         }, 2500)
     }
