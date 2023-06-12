@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar;
 import com.example.projemanag.R
+import com.example.projemanag.firebase.FireStoreClass
+import com.example.projemanag.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : BaseActivity() {
@@ -71,16 +73,17 @@ class SignInActivity : BaseActivity() {
             // Sign-In using FirebaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-                    hideProgressDialog()
+
                     if (task.isSuccessful) {
+                        FireStoreClass().signInUser(this)
 
-                        Toast.makeText(
-                            this@SignInActivity,
-                            "You have successfully signed in.",
-                            Toast.LENGTH_LONG
-                        ).show()
-
-                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+//                        Toast.makeText(
+//                            this@SignInActivity,
+//                            "You have successfully signed in.",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//
+//                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
                     } else {
                         Toast.makeText(
                             this@SignInActivity,
@@ -106,5 +109,12 @@ class SignInActivity : BaseActivity() {
                 true
             }
         }
+    }
+
+    fun signInSuccess(user: User) {
+        hideProgressDialog()
+
+        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+        finish()
     }
 }
