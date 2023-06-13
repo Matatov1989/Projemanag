@@ -1,7 +1,6 @@
 package com.example.projemanag.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowManager
@@ -75,7 +74,7 @@ class SignInActivity : BaseActivity() {
                 .addOnCompleteListener { task ->
 
                     if (task.isSuccessful) {
-                        FireStoreClass().signInUser(this)
+                        FireStoreClass().loadUserData(this)
 
 //                        Toast.makeText(
 //                            this@SignInActivity,
