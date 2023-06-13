@@ -50,6 +50,10 @@ dependencies {
     // firebase auth and firestore
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.1'
+
+    // Add the dependency for the Cloud Storage library
+    implementation 'com.google.firebase:firebase-storage'
+
     // circular image view dependency
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // glide library

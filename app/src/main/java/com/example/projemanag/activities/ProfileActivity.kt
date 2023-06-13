@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -18,10 +19,12 @@ import com.bumptech.glide.Glide
 import com.example.projemanag.R
 import com.example.projemanag.firebase.FireStoreClass
 import com.example.projemanag.models.User
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
 
     private lateinit var toolbarPprofileActivity: Toolbar
     private lateinit var ivUserImage: CircleImageView
@@ -36,6 +39,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private var mSelectedImageFileUri: Uri? = null
+    private var mProfileImageURL: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,10 +77,8 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initClickListeners() {
         ivUserImage.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
             ) {
                 showImageChooser()
             } else {
@@ -85,6 +87,12 @@ class ProfileActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     READ_STORAGE_PERMISSION_CODE
                 )
+            }
+        }
+
+        btnUpdate.setOnClickListener {
+            mSelectedImageFileUri?.let {
+                uploadUserImage()
             }
         }
     }
@@ -147,6 +155,37 @@ class ProfileActivity : AppCompatActivity() {
         etName.setText(user.name)
         etEmail.setText(user.email)
         etMobile.setText(if (user.mobile != 0L) user.mobile.toString() else "")
+    }
 
+    private fun uploadUserImage() {
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        mSelectedImageFileUri?.let {
+            val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+                "USER_IMAGE" + System.currentTimeMillis() + "." + getFileExtension(it)
+            )
+
+            sRef.putFile(it).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
+                    mProfileImageURL = uri.toString()
+                    hideProgressDialog()
+
+                    // TODO update user profile data
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(
+                    this,
+                    "${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                hideProgressDialog()
+            }
+        }
+    }
+
+    private fun getFileExtension(uri: Uri?): String? {
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
     }
 }
